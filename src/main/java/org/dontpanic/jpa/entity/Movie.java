@@ -20,6 +20,10 @@ public class Movie {
     @JoinTable(name = "movie_star", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "star_id"))
     private Set<Star> stars = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "studio_id")
+    private Studio studio;
+
     public Movie() {
     }
 
@@ -58,5 +62,14 @@ public class Movie {
 
     public void addStars(Star... star) {
         stars.addAll(Arrays.asList(star));
+    }
+
+
+    public Studio getStudio() {
+        return studio;
+    }
+
+    public void setStudio(Studio studio) {
+        this.studio = studio;
     }
 }
