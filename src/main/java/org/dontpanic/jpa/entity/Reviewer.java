@@ -2,6 +2,8 @@ package org.dontpanic.jpa.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,7 +16,14 @@ public class Reviewer {
     private String name;
 
     @OneToMany
-    private Set<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
+
+    public Reviewer() {
+    }
+
+    public Reviewer(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

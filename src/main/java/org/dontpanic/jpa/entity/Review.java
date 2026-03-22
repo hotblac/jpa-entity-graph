@@ -13,13 +13,23 @@ public class Review {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;
 
     private int  stars;
 
     private String wording;
+
+    public Review() {
+    }
+
+    public Review(Movie movie, Reviewer reviewer, int stars, String wording) {
+        this.movie = movie;
+        this.reviewer = reviewer;
+        this.stars = stars;
+        this.wording = wording;
+    }
 
     public Reviewer getReviewer() {
         return reviewer;
@@ -42,6 +52,10 @@ public class Review {
     }
 
     public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public void addMovie(Movie movie) {
         this.movie = movie;
     }
 

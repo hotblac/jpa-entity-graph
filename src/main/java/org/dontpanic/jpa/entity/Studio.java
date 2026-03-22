@@ -16,6 +16,13 @@ public class Studio {
 
     private String name;
 
+    public Studio() {
+    }
+
+    public Studio(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

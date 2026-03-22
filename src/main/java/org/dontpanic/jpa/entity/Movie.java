@@ -20,20 +20,16 @@ public class Movie {
     @JoinTable(name = "movie_star", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "star_id"))
     private Set<Star> stars = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "studio_id")
     private Studio studio;
 
     public Movie() {
     }
 
-    public Movie(String title) {
+    public Movie(String title, Studio studio) {
         this.title = title;
-    }
-
-    public Movie(Long id, String title) {
-        this.id = id;
-        this.title = title;
+        this.studio = studio;
     }
 
     public Long getId() {

@@ -13,11 +13,20 @@ public class Award {
     @JoinColumn(name = "recipient_id")
     private Star recipient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "award_id")
     private AwardBody awardBody;
 
     private String category;
+
+    public Award() {
+    }
+
+    public Award(Star recipient, AwardBody awardBody, String category) {
+        this.recipient = recipient;
+        this.awardBody = awardBody;
+        this.category = category;
+    }
 
     public Long getId() {
         return id;

@@ -12,7 +12,16 @@ public class AwardBody {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private String organization;
+    private String awardName;
+
+    public AwardBody() {
+    }
+
+    public AwardBody(String organization, String awardName) {
+        this.organization = organization;
+        this.awardName = awardName;
+    }
 
     public Long getId() {
         return id;
@@ -22,11 +31,19 @@ public class AwardBody {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getAwardName() {
+        return awardName;
+    }
+
+    public void setAwardName(String awardName) {
+        this.awardName = awardName;
     }
 }
