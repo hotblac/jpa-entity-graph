@@ -68,4 +68,13 @@ public class Movie {
     public void setStudio(Studio studio) {
         this.studio = studio;
     }
+
+    @Override
+    public String toString() {
+        // Do not include sub-entities in toString()
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

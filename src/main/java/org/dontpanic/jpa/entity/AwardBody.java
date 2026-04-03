@@ -46,4 +46,13 @@ public class AwardBody {
     public void setAwardName(String awardName) {
         this.awardName = awardName;
     }
+
+    @Override
+    public String toString() {
+        return "AwardBody{" +
+                "id=" + id +
+                ", organization='" + organization + '\'' +
+                ", awardName='" + awardName + '\'' +
+                '}';
+    }
 }

@@ -17,17 +17,14 @@ public class Review {
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;
 
-    private int  stars;
-
     private String wording;
 
     public Review() {
     }
 
-    public Review(Movie movie, Reviewer reviewer, int stars, String wording) {
+    public Review(Movie movie, Reviewer reviewer, String wording) {
         this.movie = movie;
         this.reviewer = reviewer;
-        this.stars = stars;
         this.wording = wording;
     }
 
@@ -59,19 +56,20 @@ public class Review {
         this.movie = movie;
     }
 
-    public int getStars() {
-        return stars;
-    }
-
-    public void setStars(int stars) {
-        this.stars = stars;
-    }
-
     public String getWording() {
         return wording;
     }
 
     public void setWording(String wording) {
         this.wording = wording;
+    }
+
+    @Override
+    public String toString() {
+        // Do not include sub-entities in toString()
+        return "Review{" +
+                "id=" + id +
+                ", wording='" + wording + '\'' +
+                '}';
     }
 }

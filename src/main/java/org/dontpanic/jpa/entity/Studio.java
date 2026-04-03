@@ -5,8 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.util.Set;
-
 @Entity
 public class Studio {
 
@@ -37,5 +35,13 @@ public class Studio {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Studio{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

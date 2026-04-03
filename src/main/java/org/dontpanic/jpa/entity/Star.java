@@ -68,4 +68,14 @@ public class Star {
     public void addMovie(Movie movie) {
         movies.add(movie);
     }
+
+    @Override
+    public String toString() {
+        // Do not include sub-entities in toString()
+        return "Star{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

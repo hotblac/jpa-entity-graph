@@ -59,4 +59,13 @@ public class Award {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        // Do not include sub-entities in toString()
+        return "Award{" +
+                "id=" + id +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

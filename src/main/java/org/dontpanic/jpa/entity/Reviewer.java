@@ -2,7 +2,6 @@ package org.dontpanic.jpa.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,5 +46,14 @@ public class Reviewer {
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    @Override
+    public String toString() {
+        // Do not include sub-entities in toString()
+        return "Reviewer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
