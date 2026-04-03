@@ -93,8 +93,9 @@ class ReviewerRepositoryTest extends AbstractRepositoryTest {
                 awardTo("Harrison", "Ford", "Oscar", "Best Chin")
         ));
 
-        // All entities loaded with a single query
+        // All entities loaded with a single query. No additional entity or collection fetches.
         assertEquals(1, statistics.getQueryExecutionCount());
+        assertEquals(0, statistics.getEntityFetchCount());
         assertEquals(0, statistics.getCollectionFetchCount());
     }
 }
