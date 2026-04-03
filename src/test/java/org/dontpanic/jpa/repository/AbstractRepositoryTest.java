@@ -1,10 +1,14 @@
 package org.dontpanic.jpa.repository;
 
 import org.dontpanic.jpa.entity.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Superclass for repository tests with supporting methods
@@ -54,9 +58,11 @@ public abstract class AbstractRepositoryTest {
 
         // Reviewers and reviews
         Reviewer joeBloggs = new Reviewer("Joe Bloggs");
-        Review ghostbustersReview = new Review(ghostbusters, joeBloggs, 5, "Who ya gonna call?");
-        Review indiana1Review = new Review(indiana1, joeBloggs, 5, "We had top men working on it.");
-        Review bluesBrothersReview = new Review(bluesBrothers, joeBloggs, 5, "They're on a mission from God");
+        Review ghostbustersReview = new Review(ghostbusters, joeBloggs, "Who ya gonna call?");
+        Review indiana1Review = new Review(indiana1, joeBloggs, "They had top men working on it.");
+        Review bluesBrothersReview = new Review(bluesBrothers, joeBloggs, "They're on a mission from God");
+        joeBloggs.setReviews(Set.of(ghostbustersReview, indiana1Review, bluesBrothersReview));
+        reviewerRepository.save(joeBloggs);
         reviewRepository.saveAll(List.of(ghostbustersReview, indiana1Review, bluesBrothersReview));
 
         // Awards and award bodies
@@ -70,6 +76,21 @@ public abstract class AbstractRepositoryTest {
         Award bestHat = new Award(ford, bafta, "Best Hat");
         Award bestChin = new Award(ford, oscar, "Best Chin");
         awardRepository.saveAll(List.of(mostHandsome, kingBee, bestBikini, bestHat, bestChin));
+    }
+
+    protected Matcher<Review> reviewWithWording(String wording) {
+        return new TypeSafeDiagnosingMatcher<>() {
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("a review with wording: ").appendValue(wording);
+            }
+
+            @Override
+            protected boolean matchesSafely(Review review, Description description) {
+                return review.getWording().equals(wording);
+            }
+        };
     }
 
 }
