@@ -19,6 +19,9 @@ public class Star {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Movie> movies = new HashSet<>();
 
+    @OneToMany
+    private Set<Award> awards = new HashSet<>();
+
     public Star() {
     }
 
@@ -67,6 +70,18 @@ public class Star {
 
     public void addMovie(Movie movie) {
         movies.add(movie);
+    }
+
+    public Set<Award> getAwards() {
+        return awards;
+    }
+
+    public void setAwards(Set<Award> awards) {
+        this.awards = awards;
+    }
+
+    public void addAward(Award award) {
+        this.awards.add(award);
     }
 
     @Override

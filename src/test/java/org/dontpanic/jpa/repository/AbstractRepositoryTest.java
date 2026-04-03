@@ -68,13 +68,18 @@ public abstract class AbstractRepositoryTest {
         // Awards and award bodies
         AwardBody oscar = new AwardBody("Academy of Motion Picture Arts and Sciences", "Oscar");
         AwardBody bafta = new AwardBody("British Academy of Film and Television Arts", "BAFTA");
-        AwardBody goldenGlobes = new AwardBody("Dick Clark Productions", "Golden Globes");
+        AwardBody goldenGlobes = new AwardBody("Dick Clark Productions", "Golden Globe");
 
         Award mostHandsome = new Award(aykroyd, oscar, "Most Handsome");
         Award kingBee = new Award(bellushi, bafta, "King Bee");
         Award bestBikini = new Award(fisher, goldenGlobes, "Best Bikini");
         Award bestHat = new Award(ford, bafta, "Best Hat");
         Award bestChin = new Award(ford, oscar, "Best Chin");
+        aykroyd.addAward(mostHandsome);
+        bellushi.addAward(kingBee);
+        fisher.addAward(bestBikini);
+        ford.addAward(bestHat);
+        ford.addAward(bestChin);
         awardRepository.saveAll(List.of(mostHandsome, kingBee, bestBikini, bestHat, bestChin));
     }
 
@@ -93,4 +98,49 @@ public abstract class AbstractRepositoryTest {
         };
     }
 
+    protected Matcher<Movie> movieWithTitle(String title) {
+        return new TypeSafeDiagnosingMatcher<>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("a movie with title: ").appendValue(title);
+            }
+
+            @Override
+            protected boolean matchesSafely(Movie movie, Description description) {
+                return movie.getTitle().equals(title);
+            }
+        };
+    }
+
+    protected Matcher<Star> starWithName(String firstName, String lastName) {
+        return new TypeSafeDiagnosingMatcher<>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("a star with name: ").appendValue(firstName).appendText(" ").appendValue(lastName);
+            }
+
+            @Override
+            protected boolean matchesSafely(Star star, Description description) {
+                return star.getFirstName().equals(firstName) && star.getLastName().equals(lastName);
+            }
+        };
+    }
+
+   protected Matcher<Award> awardTo(String firstName, String lastName, String awardName, String category) {
+        return new TypeSafeDiagnosingMatcher<>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendValue(awardName)
+                        .appendText(" to ").appendValue(firstName).appendText(" ").appendValue(lastName)
+                        .appendText(" for ").appendValue(category);
+            }
+            @Override
+            protected boolean matchesSafely(Award award, Description description) {
+                return award.getRecipient().getFirstName().equals(firstName) &&
+                        award.getRecipient().getLastName().equals(lastName) &&
+                        award.getAwardBody().getAwardName().equals(awardName) &&
+                        award.getCategory().equals(category);
+            }
+        };
+   }
 }
