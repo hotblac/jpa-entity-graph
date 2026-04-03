@@ -16,12 +16,12 @@ import java.util.Set;
                 @NamedSubgraph(
                         name = "Movie.allRelatedEntities",
                         attributeNodes = {
-                                @NamedAttributeNode(value = "stars", subgraph = "Stars.allRelatedEntities"),
+                                @NamedAttributeNode(value = "stars", subgraph = "Star.allRelatedEntities"),
                                 @NamedAttributeNode(value = "studio")
                         }
                 ),
                 @NamedSubgraph(
-                        name = "Stars.allRelatedEntities",
+                        name = "Star.allRelatedEntities",
                         attributeNodes = @NamedAttributeNode(value = "awards", subgraph = "Award.allRelatedEntities")
                 ),
                 @NamedSubgraph(
@@ -39,7 +39,7 @@ public class Reviewer {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Review> reviews = new HashSet<>();
 
     public Reviewer() {
