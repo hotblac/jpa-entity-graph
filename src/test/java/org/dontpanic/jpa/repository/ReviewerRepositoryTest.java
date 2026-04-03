@@ -1,6 +1,8 @@
 package org.dontpanic.jpa.repository;
 
 import org.dontpanic.jpa.entity.*;
+import org.hibernate.SessionFactory;
+import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +13,28 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ReviewerRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired private TestEntityManager entityManager;
+    private Statistics statistics;
 
     @BeforeEach
     void setUp() {
+        SessionFactory sf = entityManager.getEntityManager().getEntityManagerFactory().unwrap(SessionFactory.class);
+        statistics = sf.getStatistics();
+
         initTestData();
         // Clear the cached test data entities from the EM.
         // We want to force the tests to load all entities from the database.
         entityManager.flush();
         entityManager.clear();
+
+        // Enable statistics so we can verify execution counts
+        statistics.setStatisticsEnabled(true);
+        statistics.clear();
     }
 
     @Test
@@ -45,7 +56,7 @@ class ReviewerRepositoryTest extends AbstractRepositoryTest {
     }
 
     @Test
-    void findByName_returnsAllAssociatedEntities() {
+    void findByName_returnsAllAssociatedEntitiesWithASingleFetch() {
         Reviewer reviewer = reviewerRepository.findByName("Joe Bloggs");
         Set<Review> reviews = reviewer.getReviews();
 
@@ -81,5 +92,9 @@ class ReviewerRepositoryTest extends AbstractRepositoryTest {
                 awardTo("Harrison", "Ford", "BAFTA", "Best Hat"),
                 awardTo("Harrison", "Ford", "Oscar", "Best Chin")
         ));
+
+        // All entities loaded with a single query
+        assertEquals(1, statistics.getQueryExecutionCount());
+        assertEquals(0, statistics.getCollectionFetchCount());
     }
 }
